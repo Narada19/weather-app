@@ -132,10 +132,12 @@
 		<script type="text/javascript">
 $(document).ready(function () {
 	console.log("sdasds");
-            $.getJSON('http://127.0.0.1:5500/city.list.min.json', function (data) {
-				$.each( data, function(val) {
+            $.getJSON('abc.json', function (data) {
+				console.log(data);
+				console.log(" hhha");
+				/* $.each( data, function(val) {
                 console.log(val);
-				});
+				}); */
             });
         });
 
