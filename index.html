@@ -53,8 +53,8 @@
 			<div class="hero" data-bg-image="images/banner.png">
 				<div class="container">
 					<form action="#" class="find-location">
-						<input type="text" id="location" placeholder="Find your location...">
-						<input type="submit" value="Find" onclick="forecase();">
+						<input type="text" id="autocomplete" placeholder="Find your location...">
+						<input type="submit" value="Find" >
 					</form>
 
 				</div>
@@ -70,13 +70,14 @@
 							<div class="forecast-content">
 								<div class="location"></div>
 								<div class="degree">
-									<div class="num">23<sup>o</sup>C</div>
+									<div class="num" ><span id="current_value"></span><sup>o</sup>C</div>
 									<div class="forecast-icon">
+										<symbol number="802" name="scattered clouds" var="03d"/>
 										<img src="images/icons/icon-1.svg" alt="" width=90>
 									</div>	
 								</div>
-								<span><img src="images/icon-umberella.png" alt="">20%</span>
-								<span><img src="images/icon-wind.png" alt="">18km/h</span>
+								<span><img src="images/icon-umberella.png" alt=""><span id="humidity"></span> </span>
+								<span><img src="images/icon-wind.png" alt=""><span id="windspeed"></span></span>
 								<span><img src="images/icon-compass.png" alt="">East</span>
 							</div>
 						</div>
@@ -158,70 +159,6 @@
 			<main class="main-content">
 				<div class="fullwidth-block">
 					<div class="container">
-						<h2 class="section-title">Live cameras</h2>
-						<div class="row">
-							<div class="col-md-3 col-sm-6">
-								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-1.jpg" alt=""></figure>
-									<h3 class="location">New York</h3>
-									<small class="date">8 oct, 8:00AM</small>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-2.jpg" alt=""></figure>
-									<h3 class="location">Los Angeles</h3>
-									<small class="date">8 oct, 8:00AM</small>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-3.jpg" alt=""></figure>
-									<h3 class="location">Chicago</h3>
-									<small class="date">8 oct, 8:00AM</small>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6">
-								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-4.jpg" alt=""></figure>
-									<h3 class="location">London</h3>
-									<small class="date">8 oct, 8:00AM</small>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="fullwidth-block" data-bg-color="#262936">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo saepe assumenda dolorem modi, expedita voluptatum ducimus necessitatibus. Asperiores quod reprehenderit necessitatibus harum, mollitia, odit et consequatur maxime nisi amet doloremque.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
-									<p>Nobis architecto consequatur ab, ea, eum autem aperiam accusantium placeat vitae facere explicabo temporibus minus distinctio cum optio quis, dignissimos eius aspernatur fuga. Praesentium totam, corrupti beatae amet expedita veritatis.</p>
-								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
-									<p>Enim impedit officiis placeat qui recusandae doloremque possimus, iusto blanditiis, quam optio delectus maiores. Possimus rerum, velit cum natus eos. Cumque pariatur beatae asperiores, esse libero quas ad dolorem. Voluptates.</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="fullwidth-block">
-					<div class="container">
 						<div class="row">
 							<div class="col-md-4">
 								<h2 class="section-title">Application features</h2>
@@ -299,39 +236,49 @@
 		<script src="js/jquery-1.11.1.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
-		<script src="https://momentjs.com/downloads/moment-timezone-with-data-10-year-range.js"></script>
 		<script src="js/plugins.js"></script>
 		<script src="js/app.js"></script>
-		
 
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCmhOw8wz2iAi2IH4RDnQuC1i4ZVlwC8NI&libraries=places"></script>
+		<script type="text/javascript">
 
+			
+			var input = document.getElementById('autocomplete');
+      		var autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
+			  	google.maps.event.addListener(autocomplete, 'place_changed', function(){
+					var place = autocomplete.getPlace();
 
+					var lat = place.geometry.location.lat();
+					var lng = place.geometry.location.lng();
+					console.log(place.geometry.location.lat());
+					console.log(place.geometry.location.lng());
+					// console.log(place.geometry.viewport.Va.i);
+					// console.log(place.geometry.viewport.Za.i);
+
+					forecase(lat,lng);
+				})
+		</script>
+	
 		<script type="text/javascript">
 			let weather = [];
 			let newYork = [];
-			function forecase(){
-				$.getJSON('https://api.openweathermap.org/data/2.5/onecall?lat=6.93194&lon=79.84778&exclude=hourly,daily&appid=c06447f89b6ac510a361876d552c3ef3', 
+			function forecase(lat, lng){
+				$.getJSON('https://api.openweathermap.org/data/2.5/onecall?lat='+lat+'&lon='+lng+'&exclude=hourly,daily&appid=c06447f89b6ac510a361876d552c3ef3', 
 					function(data) {
-						console.log(data);
 
-						
+						var tempval = data.current.temp;
+						var celsius = tempval - 273.15 ;
+						 celsius =  celsius.toFixed(2);
 
-						// var time = new Date(data.sys.sunrise);
-						// var date = new Date(time);
-						// console.log(date.toString());
 
-						// var time = new Date(data.timezone_offset);
-						// var date = time.toLocaleString();
-					    // console.log(date);
-					    // console.log(new Date(1597106089).toString());s
+						var humidity = data.current.humidity;
+						var windspeed = data.current.wind_speed;
+						var icone = data.current.weather.icon;
 
-					    // function timezone_offset_in_seconds(dt) 
-						// { 
-						//    return -dt.getTimezoneOffset() * 60;
-						// }
-						// usaTime = date.toLocaleString("en-US", {timeZone: "America/New_York"});
-						// var losAngeles = newYork.clone().tz("Asia/Colombo");
-						// console.log(losAngeles);
+						document.getElementsByClassName("num").innerHTML = celsius;
+						document.getElementById("current_value").innerHTML = celsius;
+						document.getElementById("humidity").innerHTML = humidity;
+						document.getElementById("windspeed").innerHTML = windspeed + 'km/h';
 					}
 				);
 			}
